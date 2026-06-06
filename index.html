@@ -305,6 +305,12 @@
 .cloudbtn:disabled{opacity:.45;box-shadow:none;cursor:default;}
 .cloudbtn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
 .cloudnote{font-family:var(--pixel);font-size:9px;color:var(--gtext);flex-basis:100%;line-height:1.4;}
+.cloudbtn.cfg{background:var(--lilac);padding:9px 11px;}
+.cloudcfg{display:none;flex-basis:100%;border:3px solid var(--ink);border-radius:12px;background:var(--cream);padding:12px;margin-top:4px;}
+.cloudcfg.open{display:block;}
+.cloudcfg label{display:block;font-family:var(--pixel);font-size:9px;color:var(--gtext);margin:6px 0 3px;}
+.cloudcfg input{width:100%;font-family:var(--pixel);font-size:10px;padding:8px;border:3px solid var(--ink);border-radius:9px;background:#fff;color:var(--ink);}
+.cfgrow{display:flex;gap:8px;margin-top:10px;}
 </style>
 <div id="device">
   <header>
@@ -369,7 +375,19 @@
       <div class="cloudbar">
         <button id="btnBackup" class="cloudbtn">☁️ BACK UP</button>
         <button id="btnRestore" class="cloudbtn alt">⬇️ RESTORE</button>
+        <button id="btnCloudCfg" class="cloudbtn cfg">⚙️</button>
         <div class="cloudnote" id="cloudNote">your wardrobe lives on this device</div>
+        <div class="cloudcfg" id="cloudCfg">
+          <label>YOUR SUPABASE URL</label>
+          <input id="cfgUrl" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://xxxx.supabase.co">
+          <label>YOUR ANON / PUBLISHABLE KEY</label>
+          <input id="cfgKey" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="eyJ… or sb_publishable_…">
+          <div class="cfgrow">
+            <button id="cfgSave" class="cloudbtn">CONNECT</button>
+            <button id="cfgClear" class="cloudbtn alt">DISCONNECT</button>
+          </div>
+          <div class="cloudnote">Saved only on this device — never in the app file. Anyone you share the app with leaves this blank and stays fully local.</div>
+        </div>
       </div>
       <div class="panel-title">★ ADD A PIECE</div>
       <div class="addbox">
@@ -555,12 +573,19 @@
    DATA LAYER — local-first (IndexedDB) + cloud backup (v9)
    Your wardrobe lives on THIS device and works fully offline.
    Supabase is an OPTIONAL backup you push to / restore from.
+   Supabase backup is OPT-IN: credentials are entered on YOUR device
+   (tap ⚙️) and stored only in this browser — never baked into the file.
+   So a shared copy ships with NO cloud: others stay 100% local and can
+   neither see your wardrobe nor write to your database.
    ========================================================= */
-const SB_URL = 'https://uahcuafhguopubkyvxxh.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhaGN1YWZoZ3VvcHVia3l2eHhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NjY1NTEsImV4cCI6MjA5NjA0MjU1MX0.XPOrSIXGiGZq1Bth13fNi9sBGMd5aJlRKcRhZE_boQo'; // anon / publishable PUBLIC key — safe in client code. Leave blank in a build you share so others stay local-only.
 const BUCKET = 'wardrobe-photos';
-const sb = (window.supabase && SB_URL && SB_KEY) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
-const cloudReady = !!sb;        // is backup/restore available in this build?
+const CLOUD_KEY='yw-cloud';
+function loadCreds(){ try{ return JSON.parse(localStorage.getItem(CLOUD_KEY)||'null'); }catch(e){ return null; } }
+function saveCreds(c){ try{ localStorage.setItem(CLOUD_KEY, JSON.stringify(c)); }catch(e){} }
+function clearCreds(){ try{ localStorage.removeItem(CLOUD_KEY); }catch(e){} }
+let creds = loadCreds();   // {url,key} — lives only in YOUR browser, not in this file
+let sb = (window.supabase && creds && creds.url && creds.key) ? window.supabase.createClient(creds.url, creds.key) : null;
+let cloudReady = !!sb;
 const NOPIC = 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="#f3e3f6"/><text x="60" y="64" font-size="9" text-anchor="middle" fill="#9f86d8">no photo</text></svg>');
 
 /* ---- tiny IndexedDB wrapper (no libraries) ---- */
@@ -643,6 +668,32 @@ function buildManifest(){ try{
   const m={name:"Yvonne's Wardrobe",short_name:"Wardrobe",start_url:".",display:"standalone",background_color:"#ffc2e6",theme_color:"#ff45a0",icons:icon?[{src:icon,sizes:"512x512",type:"image/png",purpose:"any maskable"}]:[]};
   const l=document.createElement('link'); l.rel='manifest'; l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'})); document.head.appendChild(l);
 }catch(e){ console.error('manifest',e); } }
+
+/* ---- connect / disconnect YOUR cloud (creds stay in this browser only) ---- */
+async function connectCloud(url,key){
+  if(!window.supabase){ toast('cloud library not loaded — check connection'); return; }
+  url=(url||'').trim().replace(/\/+$/,''); key=(key||'').trim();
+  if(!url||!key){ toast('paste both your URL and key'); return; }
+  try{
+    sb=window.supabase.createClient(url,key);
+    const test=await sb.from('items').select('id').limit(1);
+    if(test.error) throw test.error;
+    creds={url,key}; saveCreds(creds); cloudReady=true;
+    setStatus(); refreshCloudUI();
+    toast('cloud connected ☁️ — backup is on');
+  }catch(e){ console.error(e); sb=null; cloudReady=false; setStatus(); refreshCloudUI(); toast('couldn’t connect — '+(e.message||'check URL & key')); }
+}
+function disconnectCloud(){
+  clearCreds(); creds=null; sb=null; cloudReady=false;
+  setStatus(); refreshCloudUI(); toast('cloud disconnected — now local-only');
+}
+function refreshCloudUI(){
+  const bb=document.getElementById('btnBackup'), rb=document.getElementById('btnRestore');
+  if(bb) bb.disabled=!cloudReady; if(rb) rb.disabled=!cloudReady;
+  const u=document.getElementById('cfgUrl'), k=document.getElementById('cfgKey');
+  if(u) u.value=creds?creds.url:''; if(k) k.value=creds?creds.key:'';
+  setCloudNote(cloudReady ? 'cloud backup connected on this device' : 'local-only · tap ⚙️ to connect your own cloud backup');
+}
 
 /* ---- demo SVG garments so the swipe works on first open ---- */
 function svg(inner){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">'+inner+'</svg>');}
@@ -1160,8 +1211,13 @@ async function boot(){
   const bb=document.getElementById('btnBackup'), rb=document.getElementById('btnRestore');
   if(bb) bb.onclick=cloudBackup;
   if(rb) rb.onclick=cloudRestore;
-  if(!cloudReady){ if(bb) bb.disabled=true; if(rb) rb.disabled=true; setCloudNote('cloud backup is off in this build'); }
-  else if(idbOK && state.items.length===0){ setCloudNote('tap ⬇️ Restore to load your cloud wardrobe'); }
+  const cfgBtn=document.getElementById('btnCloudCfg'), cfg=document.getElementById('cloudCfg');
+  if(cfgBtn&&cfg) cfgBtn.onclick=()=>cfg.classList.toggle('open');
+  const sv=document.getElementById('cfgSave'), cl=document.getElementById('cfgClear');
+  if(sv) sv.onclick=()=>connectCloud(document.getElementById('cfgUrl').value, document.getElementById('cfgKey').value);
+  if(cl) cl.onclick=disconnectCloud;
+  refreshCloudUI();
+  if(cloudReady && idbOK && state.items.length===0){ setCloudNote('tap ⬇️ Restore to load your cloud wardrobe'); }
   renderDeck('top'); renderDeck('bot'); renderDeck('dress');
   renderStuff();
 }
