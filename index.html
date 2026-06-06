@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wardrobe">
+<meta name="theme-color" content="#ff45a0">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
 <title>Yvonne's Wardrobe</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -294,6 +298,14 @@
 </style>
 </head>
 <body>
+<style>
+.cloudbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px;}
+.cloudbtn{font-family:var(--pixel);font-size:11px;border:3px solid var(--ink);background:var(--lime);color:var(--ink);padding:9px 12px;border-radius:12px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;}
+.cloudbtn.alt{background:var(--bubble);}
+.cloudbtn:disabled{opacity:.45;box-shadow:none;cursor:default;}
+.cloudbtn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
+.cloudnote{font-family:var(--pixel);font-size:9px;color:var(--gtext);flex-basis:100%;line-height:1.4;}
+</style>
 <div id="device">
   <header>
     <div class="strip leopard dark"></div>
@@ -354,6 +366,11 @@
 
     <!-- ===== MY STUFF ===== -->
     <section class="view" id="view-stuff">
+      <div class="cloudbar">
+        <button id="btnBackup" class="cloudbtn">☁️ BACK UP</button>
+        <button id="btnRestore" class="cloudbtn alt">⬇️ RESTORE</button>
+        <div class="cloudnote" id="cloudNote">your wardrobe lives on this device</div>
+      </div>
       <div class="panel-title">★ ADD A PIECE</div>
       <div class="addbox">
         <input type="file" id="photoInput" accept="image/*" hidden>
@@ -535,47 +552,97 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =========================================================
-   SUPABASE  (cloud data + photo storage — v8)
-   Your real wardrobe lives in Supabase. If the cloud can't be
-   reached (no setup / offline / sandbox), the app drops to a
-   local demo so it still previews — nothing is lost.
+   DATA LAYER — local-first (IndexedDB) + cloud backup (v9)
+   Your wardrobe lives on THIS device and works fully offline.
+   Supabase is an OPTIONAL backup you push to / restore from.
    ========================================================= */
 const SB_URL = 'https://uahcuafhguopubkyvxxh.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhaGN1YWZoZ3VvcHVia3l2eHhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NjY1NTEsImV4cCI6MjA5NjA0MjU1MX0.XPOrSIXGiGZq1Bth13fNi9sBGMd5aJlRKcRhZE_boQo'; // anon / publishable PUBLIC key — safe in client code
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVhaGN1YWZoZ3VvcHVia3l2eHhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NjY1NTEsImV4cCI6MjA5NjA0MjU1MX0.XPOrSIXGiGZq1Bth13fNi9sBGMd5aJlRKcRhZE_boQo'; // anon / publishable PUBLIC key — safe in client code. Leave blank in a build you share so others stay local-only.
 const BUCKET = 'wardrobe-photos';
-const db = (window.supabase && SB_URL && SB_KEY) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
-let online = false;            // flips true once a cloud load succeeds
+const sb = (window.supabase && SB_URL && SB_KEY) ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+const cloudReady = !!sb;        // is backup/restore available in this build?
+const NOPIC = 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="#f3e3f6"/><text x="60" y="64" font-size="9" text-anchor="middle" fill="#9f86d8">no photo</text></svg>');
 
-const KEY='yvonnes-wardrobe-v1';
-let mem=null;
-function cacheLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){ mem=state; } }
-function localOrSeed(){ try{ const r=localStorage.getItem(KEY); return r?JSON.parse(r):seed(); }catch(e){ return mem || (mem=seed()); } }
-function save(){ cacheLocal(); }   // legacy calls keep a local cache; cloud writes fire alongside
+/* ---- tiny IndexedDB wrapper (no libraries) ---- */
+const IDB_NAME='yvonnes-wardrobe', IDB_VER=1;
+let _idb=null, idbOK=false;
+function idbOpen(){ return new Promise((res,rej)=>{ if(!window.indexedDB) return rej('no indexeddb');
+  const r=indexedDB.open(IDB_NAME,IDB_VER);
+  r.onupgradeneeded=()=>{ const d=r.result; if(!d.objectStoreNames.contains('kv'))d.createObjectStore('kv',{keyPath:'k'}); if(!d.objectStoreNames.contains('photos'))d.createObjectStore('photos',{keyPath:'id'}); };
+  r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+function idbReq(store,mode,fn){ return new Promise((res,rej)=>{ const tx=_idb.transaction(store,mode),st=tx.objectStore(store),rq=fn(st); tx.oncomplete=()=>res(rq&&rq.result); tx.onerror=()=>rej(tx.error); }); }
+const idbPut=(s,o)=>idbReq(s,'readwrite',st=>st.put(o));
+const idbGet=(s,k)=>idbReq(s,'readonly',st=>st.get(k));
+const idbDel=(s,k)=>idbReq(s,'readwrite',st=>st.delete(k));
 
-/* ---- small helpers ---- */
+/* ---- helpers ---- */
 function uuid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16);}); }
 function dataURLtoBlob(u){ const [h,b]=u.split(','); const mime=(h.match(/:(.*?);/)||[])[1]||'image/webp'; const bin=atob(b); const a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return new Blob([a],{type:mime}); }
-function rowToItem(r){ return {id:r.id, name:r.name, cat:r.category, season:r.season||[], occasion:r.occasion||[], img:r.image_path}; }
 
-/* ---- photo upload -> public URL ---- */
-async function uploadPhoto(id, dataURL){
-  const {error}=await db.storage.from(BUCKET).upload(id+'.webp', dataURLtoBlob(dataURL), {contentType:'image/webp', upsert:true});
-  if(error) throw error;
-  return db.storage.from(BUCKET).getPublicUrl(id+'.webp').data.publicUrl;
+/* ---- persistence: metadata in kv['state'], photo blobs in photos store ---- */
+function serializable(){ return { items: state.items.map(i=>({id:i.id,name:i.name,cat:i.cat,season:i.season,occasion:i.occasion})), outfits:state.outfits||{}, dayTypes:state.dayTypes||{}, delItems:state.delItems||[], delDays:state.delDays||[] }; }
+function save(){ if(idbOK){ idbPut('kv',{k:'state',v:serializable()}).catch(e=>console.error('save',e)); } else { try{ localStorage.setItem('yw-fallback',JSON.stringify(serializable())); }catch(e){} } }
+async function putPhoto(id,blob){ if(idbOK) await idbPut('photos',{id,blob}); }
+function delPhoto(id){ if(idbOK) idbDel('photos',id).catch(()=>{}); }
+function trackDelItem(id){ (state.delItems=state.delItems||[]).push(id); }
+function trackDelDay(d){ (state.delDays=state.delDays||[]).push(d); }
+function setCloudNote(t){ const n=document.getElementById('cloudNote'); if(n) n.textContent=t; }
+
+/* ---- BACK UP: push everything local -> Supabase (upsert + tracked deletes) ---- */
+async function cloudBackup(){
+  if(!cloudReady){ toast('cloud not set up in this build'); return; }
+  const btn=document.getElementById('btnBackup'); if(btn) btn.disabled=true;
+  toast('backing up… ☁️');
+  try{
+    for(const it of state.items){
+      let url=it.img;
+      if(idbOK){ const r=await idbGet('photos',it.id); if(r&&r.blob){ const up=await sb.storage.from(BUCKET).upload(it.id+'.webp',r.blob,{contentType:'image/webp',upsert:true}); if(up.error) throw up.error; url=sb.storage.from(BUCKET).getPublicUrl(it.id+'.webp').data.publicUrl; } }
+      const {error}=await sb.from('items').upsert({id:it.id,name:it.name,category:it.cat,season:it.season,occasion:it.occasion,image_path:url},{onConflict:'id'}); if(error) throw error;
+    }
+    const dates=new Set([...Object.keys(state.outfits||{}),...Object.keys(state.dayTypes||{})]);
+    for(const d of dates){ const o=state.outfits[d]||null, dt=state.dayTypes[d]||null; const {error}=await sb.from('day_plans').upsert({plan_date:d,day_type:dt,top_id:(o&&o.topId)||null,bottom_id:(o&&o.botId)||null,dress_id:(o&&o.dressId)||null},{onConflict:'plan_date'}); if(error) throw error; }
+    for(const id of (state.delItems||[])){ await sb.storage.from(BUCKET).remove([id+'.webp']).catch(()=>{}); await sb.from('items').delete().eq('id',id); }
+    for(const d of (state.delDays||[])){ await sb.from('day_plans').delete().eq('plan_date',d); }
+    state.delItems=[]; state.delDays=[]; save();
+    const t=new Date(); if(idbOK) idbPut('kv',{k:'lastBackup',v:t.toISOString()}).catch(()=>{});
+    setCloudNote('backed up '+t.toLocaleString());
+    toast('backed up to cloud ✓');
+  }catch(e){ console.error(e); toast('backup failed — '+(e.message||'check connection')); }
+  if(btn) btn.disabled=false;
 }
 
-/* ---- cloud writes (no-ops while offline; toast on failure) ---- */
-async function cloudInsertItem(it){ if(!online)return; const {error}=await db.from('items').insert({id:it.id,name:it.name,category:it.cat,season:it.season,occasion:it.occasion,image_path:it.img}); if(error){console.error(error);toast('couldn\u2019t save — check connection');} }
-async function cloudUpdateItem(it){ if(!online)return; const {error}=await db.from('items').update({name:it.name,category:it.cat,season:it.season,occasion:it.occasion}).eq('id',it.id); if(error){console.error(error);toast('update didn\u2019t sync');} }
-async function cloudDeleteItem(id){ if(!online)return; await db.storage.from(BUCKET).remove([id+'.webp']).catch(()=>{}); const {error}=await db.from('items').delete().eq('id',id); if(error){console.error(error);toast('delete didn\u2019t sync');} }
-async function cloudDeleteDay(key){ if(!online)return; const {error}=await db.from('day_plans').delete().eq('plan_date',key); if(error){console.error(error);toast('clear didn\u2019t sync');} }
-async function cloudSaveDay(key){ if(!online)return;
-  const dt=state.dayTypes[key]||null, o=state.outfits[key]||null;
-  if(!dt&&!o) return cloudDeleteDay(key);
-  const row={plan_date:key,day_type:dt,top_id:(o&&o.topId)||null,bottom_id:(o&&o.botId)||null,dress_id:(o&&o.dressId)||null};
-  const {error}=await db.from('day_plans').upsert(row,{onConflict:'plan_date'}); if(error){console.error(error);toast('plan didn\u2019t sync');}
+/* ---- RESTORE: pull everything Supabase -> this device (replaces local) ---- */
+async function cloudRestore(){
+  if(!cloudReady){ toast('cloud not set up in this build'); return; }
+  if(!confirm('Restore replaces this device’s wardrobe with your cloud backup. Continue?')) return;
+  const btn=document.getElementById('btnRestore'); if(btn) btn.disabled=true;
+  toast('restoring… ⬇️');
+  try{
+    const itemsRes=await sb.from('items').select('*'); if(itemsRes.error) throw itemsRes.error;
+    const plansRes=await sb.from('day_plans').select('*'); if(plansRes.error) throw plansRes.error;
+    const items=[];
+    for(const r of (itemsRes.data||[])){
+      let img=r.image_path||NOPIC;
+      if(r.image_path){ try{ const resp=await fetch(r.image_path); const blob=await resp.blob(); await putPhoto(r.id,blob); img=URL.createObjectURL(blob); }catch(e){ console.error('img dl',e); } }
+      items.push({id:r.id,name:r.name,cat:r.category,season:r.season||[],occasion:r.occasion||[],img});
+    }
+    const outfits={},dayTypes={};
+    (plansRes.data||[]).forEach(p=>{ if(p.day_type)dayTypes[p.plan_date]=p.day_type; if(p.dress_id)outfits[p.plan_date]={dressId:p.dress_id}; else if(p.top_id||p.bottom_id)outfits[p.plan_date]={topId:p.top_id,botId:p.bottom_id}; });
+    state.items=items; state.outfits=outfits; state.dayTypes=dayTypes; state.delItems=[]; state.delDays=[]; save();
+    renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress'); try{ renderCal(); }catch(e){}
+    setCloudNote('restored '+items.length+' pieces · '+new Date().toLocaleString());
+    toast('restored from cloud ✓ ('+items.length+' pieces)');
+  }catch(e){ console.error(e); toast('restore failed — '+(e.message||'check connection')); }
+  if(btn) btn.disabled=false;
 }
+
+/* ---- web app manifest (built at runtime so it stays single-file) ---- */
+function buildManifest(){ try{
+  const ic=document.querySelector('link[rel="apple-touch-icon"]'); const icon=ic?ic.href:'';
+  const m={name:"Yvonne's Wardrobe",short_name:"Wardrobe",start_url:".",display:"standalone",background_color:"#ffc2e6",theme_color:"#ff45a0",icons:icon?[{src:icon,sizes:"512x512",type:"image/png",purpose:"any maskable"}]:[]};
+  const l=document.createElement('link'); l.rel='manifest'; l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'})); document.head.appendChild(l);
+}catch(e){ console.error('manifest',e); } }
 
 /* ---- demo SVG garments so the swipe works on first open ---- */
 function svg(inner){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">'+inner+'</svg>');}
@@ -783,17 +850,11 @@ document.getElementById('saveItem').onclick=async ()=>{
   if(!pendingPhoto){ toast('add a photo first 📸'); return; }
   if(!pendingCat){ toast('top, bottom or one-piece?'); return; }
   if(!name){ toast('give it a name!'); return; }
-  const saveBtn=document.getElementById('saveItem');
   const id=uuid();
   let img=pendingPhoto;
-  if(online){
-    saveBtn.disabled=true; toast('uploading photo… ☁️');
-    try{ img=await uploadPhoto(id, pendingPhoto); }
-    catch(e){ console.error(e); saveBtn.disabled=false; toast('photo upload failed — is the “wardrobe-photos” bucket made & public?'); return; }
-    saveBtn.disabled=false;
-  }
+  if(idbOK){ try{ const blob=dataURLtoBlob(pendingPhoto); await putPhoto(id,blob); img=URL.createObjectURL(blob); }catch(e){ console.error('photo',e); } }
   const it={id, name, cat:pendingCat, img, season:pendingSeason.slice(), occasion:pendingOccasion.slice()};
-  state.items.push(it); save(); cloudInsertItem(it);
+  state.items.push(it); save();
   pendingPhoto=null; pendingCat=null; pendingSeason.length=0; pendingOccasion.length=0;
   document.getElementById('itemName').value='';
   photoBtn.classList.remove('has'); photoBtn.innerHTML='📸 TAP TO ADD PHOTO<br>(camera or gallery)';
@@ -825,7 +886,7 @@ function renderStuff(){
     grid.appendChild(d);
   });
   grid.querySelectorAll('.del').forEach(x=>{
-    x.onclick=(e)=>{ e.stopPropagation(); const id=x.dataset.id; state.items=state.items.filter(i=>i.id!==id); save(); cloudDeleteItem(id); renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress'); toast('removed 👋'); };
+    x.onclick=(e)=>{ e.stopPropagation(); const id=x.dataset.id; state.items=state.items.filter(i=>i.id!==id); trackDelItem(id); delPhoto(id); save(); renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress'); toast('removed 👋'); };
   });
 }
 
@@ -872,7 +933,7 @@ document.getElementById('editSave').onclick=()=>{
   if(editCat) it.cat=editCat;
   it.season=editSeasonArr.slice();
   it.occasion=editOccasionArr.slice();
-  save(); cloudUpdateItem(it);
+  save();
   document.getElementById('editModal').style.display='none'; editingId=null;
   renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress');
   toast('updated! 💅');
@@ -939,7 +1000,7 @@ function renderCal(){
 function onDayTap(key){
   if(pending){
     state.outfits[key]=pending;
-    save(); cloudSaveDay(key); pending=null; renderCal(); toast('outfit planned for '+key+' 💅');
+    save(); pending=null; renderCal(); toast('outfit planned for '+key+' 💅');
   } else {
     openDay(key);
   }
@@ -978,11 +1039,11 @@ function openDay(key){
 }
 document.getElementById('dayClose').onclick=()=>{
   if(daySel) state.dayTypes[dayKey]=daySel; else delete state.dayTypes[dayKey];
-  save(); cloudSaveDay(dayKey); document.getElementById('dayModal').style.display='none'; renderCal();
+  save(); document.getElementById('dayModal').style.display='none'; renderCal();
 };
 document.getElementById('dayClear').onclick=()=>{
   const k=dayKey; delete state.dayTypes[dayKey]; delete state.outfits[dayKey]; daySel=null;
-  save(); cloudDeleteDay(k); document.getElementById('dayModal').style.display='none'; renderCal(); toast('day cleared 🧹');
+  trackDelDay(k); save(); document.getElementById('dayModal').style.display='none'; renderCal(); toast('day cleared 🧹');
 };
 
 /* ----- day styler: swipe a look filtered by the day's occasion ----- */
@@ -1041,7 +1102,7 @@ document.getElementById('styleSave').onclick=()=>{
   }
   state.outfits[dayKey]=outfit;
   if(daySel) state.dayTypes[dayKey]=daySel;
-  save(); cloudSaveDay(dayKey);
+  save();
   document.getElementById('styleModal').style.display='none';
   renderDayOutfit(); renderCal();
   toast('outfit saved 💅');
@@ -1074,31 +1135,33 @@ function setStatus(){
   const hd=document.querySelector('header'); if(hd) hd.style.position='relative';
   let pill=document.getElementById('syncPill');
   if(!pill){ pill=document.createElement('div'); pill.id='syncPill'; hd.appendChild(pill); }
-  pill.textContent = online ? '☁️ synced' : '✈️ local only';
-  pill.style.cssText='position:absolute;top:8px;right:10px;font-family:var(--pixel);font-size:9px;line-height:1;padding:4px 7px;border-radius:10px;border:2px solid var(--ink);z-index:5;background:'+(online?'var(--lime)':'var(--butter)')+';color:var(--ink);';
+  pill.textContent = cloudReady ? '☁️ backup ready' : '✈️ local only';
+  pill.style.cssText='position:absolute;top:8px;right:10px;font-family:var(--pixel);font-size:9px;line-height:1;padding:4px 7px;border-radius:10px;border:2px solid var(--ink);z-index:5;background:'+(cloudReady?'var(--lime)':'var(--butter)')+';color:var(--ink);';
 }
-async function loadFromCloud(){
-  const [itemsRes, plansRes] = await Promise.all([
-    db.from('items').select('*').order('created_at',{ascending:true}),
-    db.from('day_plans').select('*')
-  ]);
-  if(itemsRes.error) throw itemsRes.error;
-  if(plansRes.error) throw plansRes.error;
-  state={items:(itemsRes.data||[]).map(rowToItem), outfits:{}, dayTypes:{}};
-  (plansRes.data||[]).forEach(p=>{
-    if(p.day_type) state.dayTypes[p.plan_date]=p.day_type;
-    if(p.dress_id) state.outfits[p.plan_date]={dressId:p.dress_id};
-    else if(p.top_id||p.bottom_id) state.outfits[p.plan_date]={topId:p.top_id, botId:p.bottom_id};
-  });
+async function loadLocal(){
+  try{ _idb=await idbOpen(); idbOK=true; }catch(e){ console.error('indexeddb unavailable → demo', e); idbOK=false; }
+  if(idbOK){
+    let saved=null; try{ const r=await idbGet('kv','state'); saved=r&&r.v||null; }catch(e){ console.error(e); }
+    if(saved){
+      const items=[];
+      for(const i of (saved.items||[])){ let img=NOPIC; try{ const p=await idbGet('photos',i.id); if(p&&p.blob) img=URL.createObjectURL(p.blob); }catch(e){} items.push({...i, img}); }
+      state={items, outfits:saved.outfits||{}, dayTypes:saved.dayTypes||{}, delItems:saved.delItems||[], delDays:saved.delDays||[]};
+    } else {
+      state={items:[], outfits:{}, dayTypes:{}, delItems:[], delDays:[]};
+    }
+  } else {
+    state=seed(); state.delItems=[]; state.delDays=[];   // sandbox/no-IDB: show demo so it previews
+  }
 }
 async function boot(){
-  if(db){
-    try{ await loadFromCloud(); online=true; cacheLocal(); }
-    catch(e){ console.error('cloud load failed → local demo', e); online=false; state=localOrSeed(); }
-  } else { online=false; state=localOrSeed(); }
-  if(!state.dayTypes) state.dayTypes={};
-  if(!state.outfits)  state.outfits={};
+  await loadLocal();
   setStatus();
+  buildManifest();
+  const bb=document.getElementById('btnBackup'), rb=document.getElementById('btnRestore');
+  if(bb) bb.onclick=cloudBackup;
+  if(rb) rb.onclick=cloudRestore;
+  if(!cloudReady){ if(bb) bb.disabled=true; if(rb) rb.disabled=true; setCloudNote('cloud backup is off in this build'); }
+  else if(idbOK && state.items.length===0){ setCloudNote('tap ⬇️ Restore to load your cloud wardrobe'); }
   renderDeck('top'); renderDeck('bot'); renderDeck('dress');
   renderStuff();
 }
