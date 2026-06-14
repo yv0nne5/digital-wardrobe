@@ -120,9 +120,16 @@
     user-select:none; -webkit-user-drag:none;
   }
   .stage.tall .garment{height:280px;}
-  /* bottoms are longer than tops -> taller block (extra +15% in v10, +10% more in v10.1) */
-  #botStage{height:193px;}
-  #botStage .garment{height:180px;}
+  /* v10.5: closet top 35% / bottom 65%, sized to nearly fill the screen */
+  #topStage{height:154px;}
+  #topStage .garment{height:144px;}
+  #botStage{height:286px;}
+  #botStage .garment{height:270px;}
+  /* Style-Me modal mirrors the closet at the same 35/65 ratio (more compact) */
+  #sTopStage{height:132px;}
+  #sTopStage .garment{height:124px;}
+  #sBotStage{height:245px;}
+  #sBotStage .garment{height:230px;}
   .garment.swap{opacity:0; transform:scale(.85);}
   .item-name{
     text-align:center; font-family:var(--pixel); font-size:12px;
@@ -301,8 +308,10 @@
   .ebtn.save{background:linear-gradient(180deg,var(--lime),#8fce1f); color:#fff;}
   .ebtn.cancel{background:#fff; color:var(--grape); border-color:var(--lilac); box-shadow:0 4px 0 var(--lilac);}
   .ebtn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,.15);}
-  #dayOutfit{display:flex; gap:8px; justify-content:center; align-items:center; min-height:96px; background:#fff; border:2px solid var(--lilac); border-radius:10px; padding:8px;}
-  #dayOutfit img{max-height:88px; max-width:45%; object-fit:contain;}
+  #dayOutfit{display:flex; flex-direction:column; gap:6px; justify-content:center; align-items:center; height:280px; background:#fff; border:2px solid var(--lilac); border-radius:10px; padding:8px;}
+  #dayOutfit img.dtop{flex:0 1 35%; min-height:0; max-width:88%; object-fit:contain;}
+  #dayOutfit img.dbot{flex:0 1 65%; min-height:0; max-width:88%; object-fit:contain;}
+  #dayOutfit img.ddress{flex:1 1 auto; min-height:0; max-height:100%; max-width:88%; object-fit:contain;}
   #dayOutfit .none{font-family:var(--pixel); font-size:11px; color:var(--gtext); text-align:center; line-height:1.7;}
   .filtertoggle{width:100%; font-family:var(--pixel); font-size:11px; color:var(--gtext); background:#fff; border:2px dashed var(--lilac); border-radius:10px; padding:9px; margin-bottom:8px; cursor:pointer;}
   .filtertoggle:active{transform:translateY(1px);}
@@ -520,37 +529,29 @@
     </div>
     <button id="styleAllToggle" class="filtertoggle">👀 SHOW ALL MY CLOTHES</button>
     <div id="styleSeparates">
-      <div class="deck">
-        <span class="deck-label">▲ TOPS</span>
+      <div class="deck sidenav">
         <div class="stage" id="sTopStage"></div>
         <div class="item-name" id="sTopName"></div>
-        <div class="arrows">
-          <button class="navbtn" data-deck="stop" data-dir="-1">◀</button>
-          <span class="counter" id="sTopCount">0/0</span>
-          <button class="navbtn" data-deck="stop" data-dir="1">▶</button>
-        </div>
+        <button class="navbtn side left" data-deck="stop" data-dir="-1">◀</button>
+        <button class="navbtn side right" data-deck="stop" data-dir="1">▶</button>
+        <span class="counter corner" id="sTopCount">0/0</span>
       </div>
-      <div class="deck">
-        <span class="deck-label">▼ BOTTOMS</span>
+      <div class="deck sidenav">
         <div class="stage" id="sBotStage"></div>
         <div class="item-name" id="sBotName"></div>
-        <div class="arrows">
-          <button class="navbtn" data-deck="sbot" data-dir="-1">◀</button>
-          <span class="counter" id="sBotCount">0/0</span>
-          <button class="navbtn" data-deck="sbot" data-dir="1">▶</button>
-        </div>
+        <button class="navbtn side left" data-deck="sbot" data-dir="-1">◀</button>
+        <button class="navbtn side right" data-deck="sbot" data-dir="1">▶</button>
+        <span class="counter corner" id="sBotCount">0/0</span>
       </div>
     </div>
     <div id="styleDressWrap" style="display:none">
-      <div class="deck">
+      <div class="deck sidenav">
         <span class="deck-label">👗 ONE PIECES</span>
         <div class="stage tall" id="sDressStage"></div>
         <div class="item-name" id="sDressName"></div>
-        <div class="arrows">
-          <button class="navbtn" data-deck="sdress" data-dir="-1">◀</button>
-          <span class="counter" id="sDressCount">0/0</span>
-          <button class="navbtn" data-deck="sdress" data-dir="1">▶</button>
-        </div>
+        <button class="navbtn side left" data-deck="sdress" data-dir="-1">◀</button>
+        <button class="navbtn side right" data-deck="sdress" data-dir="1">▶</button>
+        <span class="counter corner" id="sDressCount">0/0</span>
       </div>
     </div>
     <button id="styleShuffle" class="savebtn" style="background:linear-gradient(180deg,var(--hot),#d61f7a);">🎲 SHUFFLE</button>
@@ -1108,8 +1109,8 @@ function renderDayOutfit(){
     return;
   }
   let imgs='';
-  if(o.dressId){ const di=imgById(o.dressId); imgs=di?'<img src="'+di+'">':''; }
-  else { const ti=imgById(o.topId), bi=imgById(o.botId); imgs=(ti?'<img src="'+ti+'">':'')+(bi?'<img src="'+bi+'">':''); }
+  if(o.dressId){ const di=imgById(o.dressId); imgs=di?'<img class="ddress" src="'+di+'">':''; }
+  else { const ti=imgById(o.topId), bi=imgById(o.botId); imgs=(ti?'<img class="dtop" src="'+ti+'">':'')+(bi?'<img class="dbot" src="'+bi+'">':''); }
   el.innerHTML=imgs||'<div class="none">those pieces were removed</div>';
 }
 function openDay(key){
