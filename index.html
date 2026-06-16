@@ -121,10 +121,18 @@
   }
   .stage.tall .garment{height:280px;}
   /* v10.5: closet top 35% / bottom 65%, sized to nearly fill the screen */
-  #topStage{height:154px;}
-  #topStage .garment{height:144px;}
+  /* v10.7: bigger garments + snug stages so there's little dead space below;
+     top deck name moves above the garment (see markup) */
+  /* v10.8: breathing room restored — top stage padded below its (now-above) name;
+     bottom garment a touch smaller so it stops out-sizing the top and leaves a
+     gap before its name */
+  #topStage{height:168px; padding-top:12px; box-sizing:border-box;}
+  #topStage .garment{height:152px;}
   #botStage{height:286px;}
-  #botStage .garment{height:270px;}
+  #botStage .garment{height:264px;}
+  /* one-piece: "ONE PIECES" label removed from the card, so just a little top
+     breathing room; still tall enough to fill the screen */
+  #dressStage{height:354px; padding-top:8px; box-sizing:border-box;}
   /* Style-Me modal mirrors the closet at the same 35/65 ratio (more compact) */
   #sTopStage{height:132px;}
   #sTopStage .garment{height:124px;}
@@ -253,8 +261,13 @@
   .day .num{font-family:var(--pixel); font-size:12px; color:var(--ink); line-height:1;}
   .day.today{border-color:var(--hot); box-shadow:0 0 0 2px var(--bubble) inset;}
   .day .daytype{font-family:var(--pixel); font-size:8px; color:#fff; text-align:center; border-radius:4px; padding:1px 0; line-height:1.4;}
-  .day .mini{flex:1; display:flex; flex-direction:column; min-height:0;}
-  .day .mini img{flex:1; width:100%; object-fit:contain; min-height:0;}
+  /* v10.7: outfit thumbnail gets a definite height so the top/bottom split is a
+     fixed proportion (38:42) every day, instead of varying by garment aspect ratio */
+  .day .mini{flex:1; display:flex; flex-direction:column; min-height:132px;}
+  .day .mini img{width:100%; object-fit:contain; min-height:0;}
+  .day .mini img.ctop{flex:38 1 0;}
+  .day .mini img.cbot{flex:42 1 0;}
+  .day .mini img.cdress{flex:1 1 0;}
   .day.blank{border:none; background:transparent; cursor:default; min-height:0;}
   .daylegend{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px;}
   .daylegend span{font-family:var(--pixel); font-size:10px; color:var(--ink); display:flex; align-items:center; gap:4px;}
@@ -370,8 +383,8 @@
 
       <div id="separates">
         <div class="deck sidenav">
-          <div class="stage" id="topStage"></div>
           <div class="item-name" id="topName"></div>
+          <div class="stage" id="topStage"></div>
           <button class="navbtn side left" data-deck="top" data-dir="-1">◀</button>
           <button class="navbtn side right" data-deck="top" data-dir="1">▶</button>
           <span class="counter corner" id="topCount">0/0</span>
@@ -388,7 +401,6 @@
 
       <div id="dressWrap" style="display:none">
         <div class="deck sidenav">
-          <span class="deck-label">👗 ONE PIECES</span>
           <div class="stage tall" id="dressStage"></div>
           <div class="item-name" id="dressName"></div>
           <button class="navbtn side left" data-deck="dress" data-dir="-1">◀</button>
@@ -783,7 +795,7 @@ const LEN_SCALE={
   dress: {mini:0.55, knee:0.72, midi:0.86, maxi:1.0}
 };
 const LEN_DEFAULT={top:'regular', bottom:'ankle', dress:'midi'};
-const STAGE_FULL={topStage:144, botStage:270, dressStage:280, sTopStage:124, sBotStage:230, sDressStage:280};
+const STAGE_FULL={topStage:152, botStage:264, dressStage:340, sTopStage:124, sBotStage:230, sDressStage:280};
 function lenFrac(it){ const m=LEN_SCALE[it.cat]; if(!m) return 1; return m[it.length] || m[LEN_DEFAULT[it.cat]] || 1; }
 
 const DECKS={
@@ -1113,8 +1125,8 @@ function renderCal(){
     if(dt && DAYTYPES[dt]) html+='<div class="daytype" style="background:'+DAYTYPES[dt].c+'">'+DAYTYPES[dt].ab+'</div>';
     const o=state.outfits[key];
     if(o){
-      if(o.dressId){ const di=imgById(o.dressId); html+='<div class="mini">'+(di?'<img src="'+di+'">':'')+'</div>'; }
-      else { const ti=imgById(o.topId), bi=imgById(o.botId); html+='<div class="mini">'+(ti?'<img src="'+ti+'">':'')+(bi?'<img src="'+bi+'">':'')+'</div>'; }
+      if(o.dressId){ const di=imgById(o.dressId); html+='<div class="mini">'+(di?'<img class="cdress" src="'+di+'">':'')+'</div>'; }
+      else { const ti=imgById(o.topId), bi=imgById(o.botId); html+='<div class="mini">'+(ti?'<img class="ctop" src="'+ti+'">':'')+(bi?'<img class="cbot" src="'+bi+'">':'')+'</div>'; }
     }
     cell.innerHTML=html;
     cell.onclick=()=>onDayTap(key);
