@@ -653,7 +653,7 @@ function uuid(){ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID()
 function dataURLtoBlob(u){ const [h,b]=u.split(','); const mime=(h.match(/:(.*?);/)||[])[1]||'image/webp'; const bin=atob(b); const a=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i); return new Blob([a],{type:mime}); }
 
 /* ---- persistence: metadata in kv['state'], photo blobs in photos store ---- */
-function serializable(){ return { items: state.items.map(i=>({id:i.id,name:i.name,cat:i.cat,season:i.season,occasion:i.occasion})), outfits:state.outfits||{}, dayTypes:state.dayTypes||{}, delItems:state.delItems||[], delDays:state.delDays||[] }; }
+function serializable(){ return { items: state.items.map(i=>({id:i.id,name:i.name,cat:i.cat,length:i.length||null,season:i.season,occasion:i.occasion})), outfits:state.outfits||{}, dayTypes:state.dayTypes||{}, delItems:state.delItems||[], delDays:state.delDays||[] }; }
 function save(){ if(idbOK){ idbPut('kv',{k:'state',v:serializable()}).catch(e=>console.error('save',e)); } else { try{ localStorage.setItem('yw-fallback',JSON.stringify(serializable())); }catch(e){} } }
 async function putPhoto(id,blob){ if(idbOK) await idbPut('photos',{id,blob}); }
 function delPhoto(id){ if(idbOK) idbDel('photos',id).catch(()=>{}); }
@@ -670,7 +670,7 @@ async function cloudBackup(){
     for(const it of state.items){
       let url=it.img;
       if(idbOK){ const r=await idbGet('photos',it.id); if(r&&r.blob){ const up=await sb.storage.from(BUCKET).upload(it.id+'.webp',r.blob,{contentType:'image/webp',upsert:true}); if(up.error) throw up.error; url=sb.storage.from(BUCKET).getPublicUrl(it.id+'.webp').data.publicUrl; } }
-      const {error}=await sb.from('items').upsert({id:it.id,name:it.name,category:it.cat,season:it.season,occasion:it.occasion,image_path:url},{onConflict:'id'}); if(error) throw error;
+      const {error}=await sb.from('items').upsert({id:it.id,name:it.name,category:it.cat,length:it.length||null,season:it.season,occasion:it.occasion,image_path:url},{onConflict:'id'}); if(error) throw error;
     }
     const dates=new Set([...Object.keys(state.outfits||{}),...Object.keys(state.dayTypes||{})]);
     for(const d of dates){ const o=state.outfits[d]||null, dt=state.dayTypes[d]||null; const {error}=await sb.from('day_plans').upsert({plan_date:d,day_type:dt,top_id:(o&&o.topId)||null,bottom_id:(o&&o.botId)||null,dress_id:(o&&o.dressId)||null},{onConflict:'plan_date'}); if(error) throw error; }
@@ -697,7 +697,7 @@ async function cloudRestore(){
     for(const r of (itemsRes.data||[])){
       let img=r.image_path||NOPIC;
       if(r.image_path){ try{ const resp=await fetch(r.image_path); const blob=await resp.blob(); await putPhoto(r.id,blob); img=URL.createObjectURL(blob); }catch(e){ console.error('img dl',e); } }
-      items.push({id:r.id,name:r.name,cat:r.category,season:r.season||[],occasion:r.occasion||[],img});
+      items.push({id:r.id,name:r.name,cat:r.category,length:r.length||null,season:r.season||[],occasion:r.occasion||[],img});
     }
     const outfits={},dayTypes={};
     (plansRes.data||[]).forEach(p=>{ if(p.day_type)dayTypes[p.plan_date]=p.day_type; if(p.dress_id)outfits[p.plan_date]={dressId:p.dress_id}; else if(p.top_id||p.bottom_id)outfits[p.plan_date]={topId:p.top_id,botId:p.bottom_id}; });
