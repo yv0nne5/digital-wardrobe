@@ -165,6 +165,8 @@
   #topStage .garment{height:144px;}
   #botStage{height:286px;}
   #botStage .garment{height:270px;}
+  /* v10.8: one-piece closet stage — taller (fills more screen) with a gap above the garment */
+  #dressStage{height:430px; padding-top:24px; box-sizing:border-box;}
   /* Style-Me modal mirrors the closet at the same 35/65 ratio (more compact) */
   #sTopStage{height:132px;}
   #sTopStage .garment{height:124px;}
@@ -348,6 +350,7 @@
   .ebtn.save{background:linear-gradient(180deg,var(--lime),#8fce1f); color:#fff;}
   .ebtn.cancel{background:#fff; color:var(--grape); border-color:var(--lilac); box-shadow:0 4px 0 var(--lilac);}
   .ebtn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,.15);}
+  .ebtn.del-piece{width:100%; margin-top:10px; background:#fff; color:var(--hot); border-color:var(--hot); box-shadow:0 4px 0 rgba(255,69,160,.35);}
   #dayOutfit{display:flex; flex-direction:column; gap:6px; justify-content:flex-start; align-items:center; height:280px; background:#fff; border:2px solid var(--lilac); border-radius:10px; padding:8px;}
   #dayOutfit img.dtop, #dayOutfit img.dbot{min-height:0; max-width:88%; object-fit:contain;}
   #dayOutfit img.ddress{flex:1 1 auto; min-height:0; max-height:100%; max-width:88%; object-fit:contain; margin:auto 0;}
@@ -428,7 +431,6 @@
 
       <div id="dressWrap" style="display:none">
         <div class="deck sidenav">
-          <span class="deck-label">👗 ONE PIECES</span>
           <div class="stage tall" id="dressStage"></div>
           <div class="item-name" id="dressName"></div>
           <button class="navbtn side left" data-deck="dress" data-dir="-1">◀</button>
@@ -589,7 +591,6 @@
     </div>
     <div id="styleDressWrap" style="display:none">
       <div class="deck sidenav">
-        <span class="deck-label">👗 ONE PIECES</span>
         <div class="stage tall" id="sDressStage"></div>
         <div class="item-name" id="sDressName"></div>
         <button class="navbtn side left" data-deck="sdress" data-dir="-1">◀</button>
@@ -638,6 +639,7 @@
       <button id="editCancel" class="ebtn cancel">CANCEL</button>
       <button id="editSave" class="ebtn save">SAVE</button>
     </div>
+    <button id="editDelete" class="ebtn del-piece">🗑 DELETE THIS PIECE</button>
   </div>
 </div>
 <div id="toast"></div>
@@ -874,7 +876,7 @@ const LEN_SCALE={
   dress: {mini:0.55, knee:0.72, midi:0.86, maxi:1.0}
 };
 const LEN_DEFAULT={top:'regular', bottom:'ankle', dress:'midi'};
-const STAGE_FULL={topStage:144, botStage:270, dressStage:280, sTopStage:124, sBotStage:230, sDressStage:280};
+const STAGE_FULL={topStage:144, botStage:270, dressStage:392, sTopStage:124, sBotStage:230, sDressStage:280};
 function lenFrac(it){ const m=LEN_SCALE[it.cat]; if(!m) return 1; return m[it.length] || m[LEN_DEFAULT[it.cat]] || 1; }
 
 const DECKS={
@@ -1092,14 +1094,10 @@ function renderStuff(){
     const tagTxt = it.cat==='top'?'TOP':(it.cat==='bottom'?'BTM':'1PC');
     const meta=[...(it.season||[]),...(it.occasion||[])].map(m=>'<span>'+m+'</span>').join('');
     d.innerHTML='<span class="tag '+it.cat+'">'+tagTxt+'</span>'+
-      '<span class="del" data-id="'+it.id+'">×</span>'+
       '<img src="'+it.img+'"><div class="nm">'+it.name+'</div>'+
       (meta?'<div class="meta">'+meta+'</div>':'');
     d.onclick=()=>openEdit(it.id);
     grid.appendChild(d);
-  });
-  grid.querySelectorAll('.del').forEach(x=>{
-    x.onclick=(e)=>{ e.stopPropagation(); const id=x.dataset.id; state.items=state.items.filter(i=>i.id!==id); trackDelItem(id); delPhoto(id); save(); renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress'); toast('removed 👋'); };
   });
 }
 
@@ -1152,6 +1150,15 @@ document.getElementById('editSave').onclick=()=>{
   document.getElementById('editModal').style.display='none'; editingId=null;
   renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress');
   toast('updated! 💅');
+};
+document.getElementById('editDelete').onclick=()=>{
+  const id=editingId; if(!id) return;
+  if(!confirm("Delete this piece? This can't be undone.")) return;
+  state.items=state.items.filter(i=>i.id!==id);
+  trackDelItem(id); delPhoto(id); save();
+  document.getElementById('editModal').style.display='none'; editingId=null;
+  renderStuff(); renderDeck('top'); renderDeck('bot'); renderDeck('dress');
+  toast('removed 👋');
 };
 
 /* =========================================================
